@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { router, publicProcedure } from "../trpc";
+import { router, publicProcedure, protectedProcedure } from "../trpc";
 
 export const consultancyRouter = router({
   createBooking: publicProcedure
@@ -56,6 +56,53 @@ export const consultancyRouter = router({
             }
           }
         })
+      }
+    }),
+  getBookings: protectedProcedure
+    .input(z.object({
+      doctor: z.string().optional(),
+      date: z.date().optional()
+    }))
+    .query(async ({ input, ctx }) => {
+      console.log("input", input);
+      if (input.doctor && input.date) {
+        return await ctx.prisma.consultancy.findMany({
+          where: {
+            doctorId: input.doctor,
+            date: input.date
+          },
+          include: {
+            doctor: true,
+            patient: true
+          }
+        });
+      } else if (input.date) {
+        return await ctx.prisma.consultancy.findMany({
+          where: {
+            date: input.date
+          },
+          include: {
+            doctor: true,
+            patient: true
+          }
+        })
+      } else if (input.doctor) {
+        return await ctx.prisma.consultancy.findMany({
+          where: {
+            doctorId: input.doctor
+          },
+          include: {
+            doctor: true,
+            patient: true
+          }
+        });
+      } else {
+        return await ctx.prisma.consultancy.findMany({
+          include: {
+            doctor: true,
+            patient: true
+          }
+        });
       }
     }),
 });

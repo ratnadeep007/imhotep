@@ -19,6 +19,7 @@ const Home: NextPage = () => {
         <div className="p-3 rounded-lg text-gray-900 font-bold text-lg bg-gradient-to-b from-[#00C9FF] to-[#92FE9D] hover:from-[#92FE9D] hover:to-[#00C9FF] cursor-pointer">
           <Link href="/booking">Book Now</Link>
         </div>
+        <AuthShowcase />
       </main>
     </>
   );
@@ -42,7 +43,7 @@ const AuthShowcase: React.FC = () => {
       </p>
       <button
         className="rounded-full bg-white/10 px-10 py-3 font-semibold text-white no-underline transition hover:bg-white/20"
-        onClick={sessionData ? () => signOut() : () => signIn()}
+        onClick={sessionData ? () => signOut() : () => signIn(undefined, { callbackUrl: '/dashboard' })}
       >
         {sessionData ? "Sign out" : "Sign in"}
       </button>
