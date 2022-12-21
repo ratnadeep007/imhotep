@@ -12,7 +12,7 @@ export const consultancyRouter = router({
     }))
     .mutation(async ({ input, ctx }) => {
       // check if patient exits with given phone number
-      let patientExisting = await ctx.prisma.patient.findUnique({
+      const patientExisting = await ctx.prisma.patient.findUnique({
         where: {
           phone: input.phone
         }
