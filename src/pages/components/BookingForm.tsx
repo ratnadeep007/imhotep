@@ -1,5 +1,6 @@
 import { type NextPage } from "next";
 import { type ChangeEvent, type MouseEvent, useState, useRef } from "react";
+import { UserIcon, PhoneIcon, CalendarDaysIcon } from "@heroicons/react/24/solid";
 import { trpc } from "../../utils/trpc";
 
 import Animation from "./Animation";
@@ -79,16 +80,19 @@ const BookingForm: NextPage = () => {
                   >
                     Patient Name
                   </label>
-                  <input
-                    type="text"
-                    name="name"
-                    id="name"
-                    className="focus:ring-primary-600 focus:border-primary-600 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 sm:text-sm"
-                    placeholder="Rohan Ghosh"
-                    required={true}
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                  />
+                  <div className="flex flex-row">
+                    <UserIcon className="w-9 rounded-l-lg border-l border-t border-b border-gray-300 bg-gray-50 p-2.5 text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500" />
+                    <input
+                      type="text"
+                      name="name"
+                      id="name"
+                      className="focus:ring-primary-600 focus:border-primary-600 block w-full rounded-r-lg border-r border-t border-b border-gray-300 bg-gray-50 p-2.5 text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 sm:text-sm"
+                      placeholder="Rohan Ghosh"
+                      required={true}
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                    />
+                  </div>
                 </div>
                 <div>
                   <label
@@ -97,16 +101,19 @@ const BookingForm: NextPage = () => {
                   >
                     Phone Number
                   </label>
-                  <input
-                    type="number"
-                    name="phone"
-                    id="phone"
-                    placeholder="9876543210"
-                    className="focus:ring-primary-600 focus:border-primary-600 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 sm:text-sm"
-                    required={true}
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
-                  />
+                  <div className="flex flex-row">
+                    <PhoneIcon className="w-9 rounded-l-lg border-l border-t border-b border-gray-300 bg-gray-50 p-2.5 text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500" />
+                    <input
+                      type="number"
+                      name="phone"
+                      id="phone"
+                      placeholder="9876543210"
+                      className="focus:ring-primary-600 focus:border-primary-600 block w-full rounded-r-lg border-r border-t border-b border-gray-300 bg-gray-50 p-2.5 text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 sm:text-sm"
+                      required={true}
+                      value={phone}
+                      onChange={(e) => setPhone(e.target.value)}
+                    />
+                  </div>
                 </div>
                 <div>
                   <label
@@ -115,15 +122,18 @@ const BookingForm: NextPage = () => {
                   >
                     Date
                   </label>
-                  <input
-                    type="date"
-                    name="date"
-                    id="date"
-                    className="focus:ring-primary-600 focus:border-primary-600 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 sm:text-sm"
-                    required={true}
-                    value={date.toString()}
-                    onChange={(e) => setDate(new Date(e.target.value))}
-                  />
+                  <div className="flex flex-row">
+                    <CalendarDaysIcon className="w-9 rounded-l-lg border-l border-t border-b border-gray-300 bg-gray-50 p-2.5 text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500" />
+                    <input
+                      type="date"
+                      name="date"
+                      id="date"
+                      className="focus:ring-primary-600 focus:border-primary-600 block w-full rounded-r-lg border-r border-t border-b border-gray-300 bg-gray-50 p-2.5 text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 sm:text-sm"
+                      required={true}
+                      value={date.toString()}
+                      onChange={(e) => setDate(new Date(e.target.value))}
+                    />
+                  </div>
                 </div>
                 <div>
                   <label
@@ -132,22 +142,25 @@ const BookingForm: NextPage = () => {
                   >
                     Doctor Name
                   </label>
-                  <select
-                    className="focus:ring-primary-600 focus:border-primary-600 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 sm:text-sm"
-                    defaultValue={"123"}
-                    onChange={setDoctor}
-                  >
-                    <option disabled value={"123"}>
-                      Select a doctor
-                    </option>
-                    {allDoctors.isLoading
-                      ? null
-                      : allDoctors.data?.map((doc) => (
-                          <option value={doc.id} key={doc.id}>
-                            Dr. {doc.name}
-                          </option>
-                        ))}
-                  </select>
+                  <div className="flex flex-row">
+                    <UserIcon className="w-9 rounded-l-lg border-l border-t border-b border-gray-300 bg-gray-50 p-2.5 text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500" />
+                    <select
+                      className="focus:ring-primary-600 focus:border-primary-600 block w-full rounded-r-lg border-r border-t border-b border-gray-300 bg-gray-50 p-2.5 text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 sm:text-sm"
+                      defaultValue={"123"}
+                      onChange={setDoctor}
+                    >
+                      <option disabled value={"123"}>
+                        Select a doctor
+                      </option>
+                      {allDoctors.isLoading
+                        ? null
+                        : allDoctors.data?.map((doc) => (
+                            <option value={doc.id} key={doc.id}>
+                              Dr. {doc.name}
+                            </option>
+                          ))}
+                    </select>
+                  </div>
                 </div>
                 <button
                   onClick={createBooking}
