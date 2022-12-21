@@ -4,6 +4,7 @@ import Link from "next/link";
 import { signIn, signOut, useSession } from "next-auth/react";
 
 import { trpc } from "../utils/trpc";
+import Hero from "./components/Hero";
 
 const Home: NextPage = () => {
   const hello = trpc.example.hello.useQuery({ text: "gg" });
@@ -15,11 +16,12 @@ const Home: NextPage = () => {
         <meta name="description" content="Hospital Management App" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c]">
-        <div className="p-3 rounded-lg text-gray-900 font-bold text-lg bg-gradient-to-b from-[#00C9FF] to-[#92FE9D] hover:from-[#92FE9D] hover:to-[#00C9FF] cursor-pointer">
-          <Link href="/booking">Book Now</Link>
+      <main className="flex min-h-screen flex-col items-center justify-center px-2 xl:px-0 bg-gray-50 dark:bg-gray-900">
+        <div className="p-3 rounded-lg text-gray-900 font-bold text-lg cursor-pointer">
+          {/* <Link href="/booking">Book Now</Link> */}
         </div>
-        <AuthShowcase />
+        {/* <AuthShowcase /> */}
+        <Hero />
       </main>
     </>
   );

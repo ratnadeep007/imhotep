@@ -24,7 +24,7 @@ const Dashboard: NextPage = () => {
         <div className="flex flex-col justify-center items-center">
         {
           schedule.isLoading ? <div>Loading...</div>
-          : schedule.data?.map(s => <div className="flex flex-col bg-white p-4 rounded-lg">
+          : schedule.data?.map(s => <div key={s.id.toString()} className="flex flex-col bg-white p-4 rounded-lg">
             <div>Doctor: Dr.{s.doctor.name}</div>
             <div>Patient: {s.patient.name}</div>
             <div>on: {s.date.toDateString()}</div>
