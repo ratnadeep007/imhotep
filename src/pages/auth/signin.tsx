@@ -49,14 +49,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const csrfToken = await getCsrfToken();
   const session = await getSession();
 
-  if (session) {
-    console.log("singin", session);
-    return {
-      redirect: { destinaton: '/dashboard' },
-      props: {}
-    }
-  }
-
   return {
     props: { providers, csrfToken }
   };
