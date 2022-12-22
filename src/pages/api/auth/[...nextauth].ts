@@ -1,12 +1,11 @@
+import { env } from "../../../env/server.mjs";
 import NextAuth, { type NextAuthOptions } from "next-auth";
-import DiscordProvider from "next-auth/providers/discord";
 // Prisma adapter for NextAuth, optional and can be removed
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 
-import { env } from "../../../env/server.mjs";
 import { prisma } from "../../../server/db/client";
 
-import EmailProvider from "next-auth/providers/email";
+import Auth0Provider from "next-auth/providers/auth0";
 
 export const authOptions: NextAuthOptions = {
   // Include user.id on session
@@ -17,20 +16,23 @@ export const authOptions: NextAuthOptions = {
       }
       return session;
     },
+    redirect() {
+        return '/dashboard'
+    },
+  },
+  pages: {
+    signIn: '/auth/signin',
+    signOut: '/auth/signout',
+    error: '/auth/error',
+    verifyRequest: '/auth/verify-request',
   },
   // Configure one or more authentication providers
   adapter: PrismaAdapter(prisma),
   providers: [
-    EmailProvider({
-      server: {
-        host: process.env.SMTP_HOST,
-        port: Number(process.env.SMTP_PORT),
-        auth: {
-          user: process.env.SMTP_USER,
-          pass: process.env.SMTP_PASSWORD,
-        },
-      },
-      from: process.env.SMTP_FROM
+    Auth0Provider({
+      clientId: env.AUTH0_CLIENT_ID,
+      clientSecret: env.AUTH0_CLIENT_SECRET,
+      issuer: env.AUTH0_ISSUER,
     })
   ],
 };
