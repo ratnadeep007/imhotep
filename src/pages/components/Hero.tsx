@@ -9,9 +9,9 @@ interface Props {
   ctaSecondayText?: string;
   heroImage: StaticImageData;
   primaryHref? : string,
-  primaryCta?: any,
+  primaryCta?: never,
   secondaryHref?: string,
-  secondaryCta?: any
+  secondaryCta?: never
 }
 
 const Hero: NextPage<Props> = (props) => {

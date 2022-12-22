@@ -1,5 +1,5 @@
 import { type NextPage } from "next";
-import { useSession, signIn } from "next-auth/react";
+import { signIn } from "next-auth/react";
 
 import Head from "next/head";
 import Hero from "./components/Hero";
@@ -7,7 +7,6 @@ import Hero from "./components/Hero";
 import HeroImage from "../../public/doctor-g98c36410f_640.png";
 
 const Admin: NextPage = () => {
-  const { data: sessionData } = useSession();
 
   return (
     <>

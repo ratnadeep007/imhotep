@@ -3,11 +3,9 @@ import Head from "next/head";
 
 import HeroImage from "../../public/doctor-g98c36410f_640.png";
 
-import { trpc } from "../utils/trpc";
 import Hero from "./components/Hero";
 
 const Home: NextPage = () => {
-  const hello = trpc.example.hello.useQuery({ text: "gg" });
 
   return (
     <>

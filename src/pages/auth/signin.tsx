@@ -1,5 +1,5 @@
 import { type GetServerSideProps, type NextPage } from "next";
-import { getCsrfToken, getProviders, getSession, signIn } from "next-auth/react";
+import { getCsrfToken, getProviders, signIn } from "next-auth/react";
 import { type AppProvider } from "next-auth/providers";
 import Head from "next/head";
 import { useState } from "react";
@@ -47,7 +47,6 @@ export default SignIn;
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const providers = await getProviders();
   const csrfToken = await getCsrfToken();
-  const session = await getSession();
 
   return {
     props: { providers, csrfToken }
