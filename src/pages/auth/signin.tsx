@@ -22,7 +22,6 @@ const SignIn: NextPage<Props> = ({ providers, csrfToken }) => {
         <div className="block max-w-sm rounded-lg border border-gray-200 bg-white p-6 shadow-md hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
           {Object.values(providers).map((provider) => (
             <div key={provider.name}>
-              {JSON.stringify(provider)}
               <br/>{csrfToken}
               {provider.name !== "Email" ? (
                 <button
