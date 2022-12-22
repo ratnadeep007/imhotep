@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { trpc } from "../../utils/trpc";
 import { type NextPageWithLayout } from "../_app";
 import DashBoardLayout from "../components/DashboardLayout";

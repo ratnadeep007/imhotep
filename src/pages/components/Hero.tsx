@@ -9,9 +9,11 @@ interface Props {
   ctaSecondayText?: string;
   heroImage: StaticImageData;
   primaryHref? : string,
-  primaryCta?: never,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  primaryCta?: any,
   secondaryHref?: string,
-  secondaryCta?: never
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  secondaryCta?: any
 }
 
 const Hero: NextPage<Props> = (props) => {

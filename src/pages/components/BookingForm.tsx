@@ -14,10 +14,8 @@ const BookingForm: NextPage = () => {
 
   const formRef = useRef<HTMLDivElement>(null);
   const successRef = useRef<HTMLDivElement>(null);
-  const animationRef = useRef<HTMLDivElement>(null);
 
   const allDoctors = trpc.doctor.doctors.useQuery();
-  const mutateBooking = trpc.consultancy.createBooking.useMutation();
 
   const setDoctor = (e: ChangeEvent<HTMLSelectElement>) => {
     setDocId(e.target.value);
