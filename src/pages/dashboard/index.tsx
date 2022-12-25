@@ -61,7 +61,7 @@ const Index: NextPageWithLayout = () => {
           </div>
         ) : (
           <div className="w-full">
-            <BookingForm showCancel={true} />
+            <BookingForm showCancel={true} callbackFn={() => setNewBooking(false)} />
           </div>
         )}
       </main>
