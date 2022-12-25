@@ -10,9 +10,17 @@ import Auth0Provider from "next-auth/providers/auth0";
 export const authOptions: NextAuthOptions = {
   // Include user.id on session
   callbacks: {
-    session({ session, user }) {
+    async session({ session, user }) {
       if (session.user) {
         session.user.id = user.id;
+        const u = await prisma.user.findUnique({
+          where: {
+            id: user.id
+          }
+        });
+        if (u) {
+          session.user.role = u.role;
+        }
       }
       return session;
     },

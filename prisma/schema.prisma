@@ -71,7 +71,6 @@ model Doctor {
   id          String        @id @default(cuid())
   name        String
   Schedule    Schedule[]
-  Patient     Patient[]
   Consultancy Consultancy[]
 }
 
@@ -80,8 +79,6 @@ model Patient {
   id          String        @id @default(cuid())
   name        String
   phone       String        @unique
-  doctor      Doctor        @relation(fields: [doctorId], references: [id])
-  doctorId    String
   Consultancy Consultancy[]
 }
 
@@ -102,4 +99,5 @@ model Consultancy {
   doctorId  String
   patient   Patient  @relation(fields: [patientId], references: [id])
   patientId String
+  complete  Boolean  @default(false)
 }

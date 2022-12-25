@@ -5,8 +5,16 @@ import DashBoardLayout from "../components/DashboardLayout";
 import BookingForm from "../components/BookingForm";
 
 const Index: NextPageWithLayout = () => {
+  const [activeConsultancy, setActieConsultancy] = useState<Array<Record<string, unknown>>>();
+
   const doctors = trpc.doctor.doctors.useQuery();
-  const consultancy = trpc.consultancy.getBookings.useQuery({});
+  const consultancy = trpc.consultancy.getBookings.useQuery({}, {
+    onSuccess: (data) => {
+      const activeConsultancy = data.filter(d => d.complete === true);
+      setActieConsultancy(activeConsultancy);
+      return data;
+    }
+  });
   const [newBooking, setNewBooking] = useState(false);
 
   return (
@@ -42,7 +50,7 @@ const Index: NextPageWithLayout = () => {
                     </div>
                   ) : (
                     <div className="w-full text-center text-2xl font-bold text-white">
-                      {consultancy.data?.length}
+                      <span>{activeConsultancy?.length}</span>/<span>{consultancy.data?.length}</span>
                     </div>
                   )}
                 </div>

@@ -56,11 +56,6 @@ export const consultancyRouter = router({
               create: {
                 name: input.name,
                 phone: input.phone,
-                doctor: {
-                  connect: {
-                    id: input.doctor
-                  }
-                }
               }
             },
             doctor: {
@@ -153,5 +148,23 @@ export const consultancyRouter = router({
           }
         });
       }
-    })
+    }),
+  updateBookings: protectedProcedure
+    .input(z.object({
+      type: z.string(),
+      id: z.number(),
+      data: z.object({
+
+      }).optional()
+    }))
+    .mutation(async ({ ctx, input}) => {
+      return await ctx.prisma.consultancy.update({
+        where: {
+          id: input.id
+        },
+        data: {
+          complete: true
+        }
+      })
+    }),
 });
