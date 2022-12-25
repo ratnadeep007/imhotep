@@ -13,11 +13,11 @@ export default function DashBoardLayout({ childern }: Props) {
         <meta name="description" content="Hospital Management App" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="flex h-screen flex-row bg-gray-50 px-2 dark:bg-gray-900 xl:px-0 w-full gap-10">
-        <div className="w-1/6 h-full bg-green-300">
+      <main className="grid grid-cols-6 h-screen bg-gray-50 px-2 dark:bg-gray-900 xl:px-0">
+        <div className="h-full w-full bg-green-300">
           <Sidebar />
         </div>
-        <div className="flex-1">
+        <div className="col-span-5 w-full">
           {childern}
         </div>
       </main>

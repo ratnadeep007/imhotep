@@ -1,4 +1,3 @@
-import { type NextPage } from "next";
 import Image, { type StaticImageData } from "next/image";
 import Link from "next/link";
 
@@ -16,7 +15,7 @@ interface Props {
   secondaryCta?: any
 }
 
-const Hero: NextPage<Props> = (props) => {
+const Hero: React.FC<Props> = (props) => {
   return (
     <>
       <section className="bg-dark-50 dark:bg-gray-900 rounded-lg shadow-lg">

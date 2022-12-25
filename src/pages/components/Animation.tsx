@@ -1,4 +1,3 @@
-import { type NextPage } from "next";
 import { useEffect, useRef } from "react";
 import { type LottiePlayer } from "lottie-web";
 import { useState } from "react";
@@ -7,7 +6,7 @@ interface Props {
   animationSrc: string;
 }
 
-const Animation: NextPage<Props> = (props) => {
+const Animation: React.FC<Props> = (props) => {
   const ref = useRef<HTMLDivElement>(null);
   const [lottie, setLottie] = useState<LottiePlayer | null>(null);
 
