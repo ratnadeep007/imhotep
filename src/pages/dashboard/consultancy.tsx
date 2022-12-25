@@ -23,8 +23,8 @@ const Consultancy: NextPageWithLayout = () => {
 
   return (
     <>
-      <main className="flex min-h-screen w-full flex-col items-center justify-center  gap-3 bg-gray-50 px-2 dark:bg-gray-900 xl:px-0">
-        <div className="flex w-1/2 flex-col gap-3 rounded-lg border border-gray-200 bg-white p-6 shadow-md dark:border-gray-700 dark:bg-gray-800">
+      <main className="flex min-h-screen overflow-y-scroll w-full flex-col items-center justify-center  gap-3 bg-gray-50 px-2 dark:bg-gray-900 xl:px-0">
+        <div className="flex w-1/2 flex-col gap-3 my-9 overflow-y-scroll rounded-lg border border-gray-200 bg-white p-6 shadow-md dark:border-gray-700 dark:bg-gray-800">
           <h1 className="flex w-full flex-row justify-between items-center text-3xl text-white">
             <div className="">Consultancies Today</div>
             <div className="self-end text-white placeholder:text-white">
@@ -39,7 +39,7 @@ const Consultancy: NextPageWithLayout = () => {
           {consultancies.isLoading ? (
             <div className="w-full text-center text-white">Loading...</div>
           ) : consultancies.data?.length ? (
-            <div className="w-full text-white">
+            <div className="w-full text-white overflow-y-auto flex flex-col gap-2">
               {consultancies.data?.map((con) => (
                 <ConsultancyListItem
                   key={con.id.toString()}

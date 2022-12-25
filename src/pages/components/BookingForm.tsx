@@ -24,6 +24,7 @@ const BookingForm: React.FC<Props> = ({ showCancel, callbackFn }) => {
   const successRef = useRef<HTMLDivElement>(null);
 
   const allDoctors = trpc.doctor.doctors.useQuery();
+  const mutateBooking = trpc.consultancy.createBooking.useMutation();
 
   const setDoctor = (e: ChangeEvent<HTMLSelectElement>) => {
     setDocId(e.target.value);
@@ -37,7 +38,7 @@ const BookingForm: React.FC<Props> = ({ showCancel, callbackFn }) => {
       date,
       phone
     };
-    // mutateBooking.mutate(obj);
+    await mutateBooking.mutateAsync(obj);
     console.log(obj);
     // add hidden and remove flex to form
     formRef.current?.classList.add("hidden");

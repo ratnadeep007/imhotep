@@ -31,6 +31,16 @@ export const createContext = async (opts: CreateNextContextOptions) => {
   // Get the session from the server using the unstable_getServerSession wrapper function
   const session = await getServerAuthSession({ req, res });
 
+  // add role to session user
+  if (session) {
+    const user = await prisma.user.findUnique({ 
+      where: {
+        id: session.user?.id
+      }
+    });
+    if (user && session.user) session.user.role = user.role;
+  }
+
   return await createContextInner({
     session,
   });
