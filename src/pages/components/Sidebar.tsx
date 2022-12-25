@@ -1,7 +1,6 @@
-import { type NextPage } from "next";
 import Link from "next/link";
 
-const Sidebar: NextPage = () => {
+const Sidebar: React.FC = () => {
   return (
     <>
       <aside className="h-full w-full" aria-label="Sidebar">

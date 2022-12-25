@@ -4,7 +4,7 @@ import BookingForm from "./components/BookingForm";
 const Booking: NextPage = () => {
   return (
     <>
-      <BookingForm />
+      <BookingForm showCancel={false} />
     </>
   );
 };

@@ -1,16 +1,46 @@
 import { z } from "zod";
+import { Role } from "@prisma/client";
 
 import { router, publicProcedure, protectedProcedure } from "../trpc";
+import { TRPCError } from "@trpc/server";
+
+// enum Role {
+//   ADMIN = "ADMIN",
+//   ADMIN_CLIENT = "ADMIN_CLIENT",
+//   USER = "USER"
+// }
 
 export const consultancyRouter = router({
   createBooking: publicProcedure
-    .input(z.object({
-      name: z.string(),
-      date: z.date(),
-      doctor: z.string(),
-      phone: z.string(),
-    }))
+    .input(
+      z.object({
+        name: z.string(),
+        date: z.date(),
+        doctor: z.string(),
+        phone: z.string()
+      })
+    )
     .mutation(async ({ input, ctx }) => {
+      // check is user role is either ADMIN or ADMIN_CLIENT
+      const currentUserId = ctx.session?.user?.id;
+      const user = await ctx.prisma.user.findUnique({
+        where: {
+          id: currentUserId
+        }
+      });
+
+      if (!user) {
+        return {
+          error: "Forbidden"
+        };
+      }
+
+      if (user.role !== Role.ADMIN && user.role !== Role.ADMIN_CLIENT) {
+        return {
+          error: "Forbidden"
+        };
+      }
+
       // check if patient exits with given phone number
       const patientExisting = await ctx.prisma.patient.findUnique({
         where: {
@@ -55,17 +85,34 @@ export const consultancyRouter = router({
               }
             }
           }
-        })
+        });
       }
     }),
   getBookings: protectedProcedure
-    .input(z.object({
-      doctor: z.string().optional(),
-      date: z.date().optional()
-    }))
+    .input(
+      z.object({
+        doctor: z.string().optional(),
+        date: z.date().optional()
+      })
+    )
     .query(async ({ input, ctx }) => {
-      console.log("input", input);
+      // check is user role is either ADMIN or ADMIN_CLIENT
+      const currentUserId = ctx.session?.user?.id;
+      const user = await ctx.prisma.user.findUnique({
+        where: {
+          id: currentUserId
+        }
+      });
+
+      if (!user || (user.role !== Role.ADMIN && user.role !== Role.ADMIN_CLIENT)) {
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message: "You are not allowed to access this api"
+        });
+      }
+
       if (input.doctor && input.date) {
+        console.log("doc and date");
         return await ctx.prisma.consultancy.findMany({
           where: {
             doctorId: input.doctor,
@@ -77,7 +124,8 @@ export const consultancyRouter = router({
           }
         });
       } else if (input.date) {
-        return await ctx.prisma.consultancy.findMany({
+        console.log("only date");
+        const res =  await ctx.prisma.consultancy.findMany({
           where: {
             date: input.date
           },
@@ -85,7 +133,8 @@ export const consultancyRouter = router({
             doctor: true,
             patient: true
           }
-        })
+        });
+        return res;
       } else if (input.doctor) {
         return await ctx.prisma.consultancy.findMany({
           where: {
@@ -104,5 +153,5 @@ export const consultancyRouter = router({
           }
         });
       }
-    }),
+    })
 });

@@ -1,11 +1,10 @@
-import { type NextPage } from "next";
 import { type ChangeEvent, type MouseEvent, useState, useRef } from "react";
 import { UserIcon, PhoneIcon, CalendarDaysIcon } from "@heroicons/react/24/solid";
 import { trpc } from "../../utils/trpc";
 
 import Animation from "./Animation";
 
-const BookingForm: NextPage = () => {
+const BookingForm: React.FC = () => {
   const [name, setName] = useState("");
   const [date, setDate] = useState(new Date());
   const [phone, setPhone] = useState("");
