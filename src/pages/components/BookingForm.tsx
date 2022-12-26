@@ -35,7 +35,7 @@ const BookingForm: React.FC<Props> = ({ showCancel, callbackFn }) => {
     const obj = {
       name,
       doctor: docId,
-      date,
+      date: date.toString(),
       phone
     };
     await mutateBooking.mutateAsync(obj);

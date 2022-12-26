@@ -11,7 +11,7 @@ const Consultancy: NextPageWithLayout = () => {
 
   const consultancies = trpc.consultancy.getBookings.useQuery(
     {
-      date: today
+      date: today.toString()
     },
     {
       onSuccess: (data) => {
