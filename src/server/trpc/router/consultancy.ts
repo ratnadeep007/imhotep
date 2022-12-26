@@ -1,9 +1,8 @@
-import { string, z } from "zod";
+import { z } from "zod";
 import { Role } from "@prisma/client";
 
 import { router, publicProcedure, protectedProcedure } from "../trpc";
 import { TRPCError } from "@trpc/server";
-import { Consultancy } from "@prisma/client";
 
 // enum Role {
 //   ADMIN = "ADMIN",

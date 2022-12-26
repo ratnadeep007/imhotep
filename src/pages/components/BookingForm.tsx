@@ -38,7 +38,7 @@ const BookingForm: React.FC<Props> = ({ showCancel, callbackFn }) => {
       date,
       phone
     };
-    const a = await mutateBooking.mutateAsync(obj);
+    await mutateBooking.mutateAsync(obj);
     console.log(obj);
     // add hidden and remove flex to form
     formRef.current?.classList.add("hidden");
