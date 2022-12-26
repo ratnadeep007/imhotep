@@ -24,10 +24,13 @@
     "lottie-web": "^5.10.0",
     "next": "13.0.2",
     "next-auth": "4.17.0",
+    "nextjs-cors": "^2.1.2",
     "nodemailer": "^6.8.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "superjson": "1.9.1",
+    "trpc-openapi": "^1.0.0",
+    "trpc-panel": "^1.2.3",
     "zod": "^3.18.0",
     "zustand": "^4.1.5"
   },

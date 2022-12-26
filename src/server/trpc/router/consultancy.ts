@@ -3,6 +3,10 @@ import { Role } from "@prisma/client";
 
 import { router, publicProcedure, protectedProcedure } from "../trpc";
 import { TRPCError } from "@trpc/server";
+import {
+  bookingsSchema,
+  createBookingReturnTypeSchema
+} from "../../../types/OpenAPI";
 
 // enum Role {
 //   ADMIN = "ADMIN",
@@ -12,14 +16,16 @@ import { TRPCError } from "@trpc/server";
 
 export const consultancyRouter = router({
   createBooking: publicProcedure
+    .meta({ openapi: { method: "POST", path: "/create-booking" } })
     .input(
       z.object({
         name: z.string(),
-        date: z.date(),
+        date: z.string(),
         doctor: z.string(),
         phone: z.string()
       })
     )
+    .output(createBookingReturnTypeSchema)
     .mutation(async ({ input, ctx }) => {
       // check is user role is either ADMIN or ADMIN_CLIENT
       const currentUserId = ctx.session?.user?.id;
@@ -55,7 +61,7 @@ export const consultancyRouter = router({
             patient: {
               create: {
                 name: input.name,
-                phone: input.phone,
+                phone: input.phone
               }
             },
             doctor: {
@@ -84,12 +90,14 @@ export const consultancyRouter = router({
       }
     }),
   getBookings: protectedProcedure
+    .meta({ openapi: { method: "GET", path: "/bookings" } })
     .input(
       z.object({
         doctor: z.string().optional(),
-        date: z.date().optional()
+        date: z.string().optional()
       })
     )
+    .output(bookingsSchema)
     .query(async ({ input, ctx }) => {
       // check is user role is either ADMIN or ADMIN_CLIENT
       const currentUserId = ctx.session?.user?.id;
@@ -99,7 +107,10 @@ export const consultancyRouter = router({
         }
       });
 
-      if (!user || (user.role !== Role.ADMIN && user.role !== Role.ADMIN_CLIENT)) {
+      if (
+        !user ||
+        (user.role !== Role.ADMIN && user.role !== Role.ADMIN_CLIENT)
+      ) {
         throw new TRPCError({
           code: "FORBIDDEN",
           message: "You are not allowed to access this api"
@@ -120,7 +131,7 @@ export const consultancyRouter = router({
         });
       } else if (input.date) {
         console.log("only date");
-        const res =  await ctx.prisma.consultancy.findMany({
+        const res = await ctx.prisma.consultancy.findMany({
           where: {
             date: input.date
           },
@@ -150,21 +161,31 @@ export const consultancyRouter = router({
       }
     }),
   updateBookings: protectedProcedure
-    .input(z.object({
-      type: z.string(),
-      id: z.number(),
-      data: z.object({
-
-      }).optional()
-    }))
-    .mutation(async ({ ctx, input}) => {
-      return await ctx.prisma.consultancy.update({
-        where: {
-          id: input.id
-        },
-        data: {
-          complete: true
-        }
+    .meta({ openapi: { method: "PATCH", path: "/update-booking" } })
+    .input(
+      z.object({
+        type: z.string(),
+        id: z.number(),
+        data: z.object({}).optional()
       })
-    }),
+    )
+    .output(z.boolean())
+    .mutation(async ({ ctx, input }) => {
+      if (input.type === "MARK_DONE") {
+        await ctx.prisma.consultancy.update({
+          where: {
+            id: input.id
+          },
+          data: {
+            complete: true
+          },
+          select: {
+            id: true,
+            date: true
+          }
+        });
+        return true;
+      }
+      return false;
+    })
 });

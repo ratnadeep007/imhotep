@@ -1,8 +1,14 @@
-import { type Doctor, type Patient, type Consultancy } from "@prisma/client";
+import { type Doctor, type Patient } from "@prisma/client";
 import { trpc } from "../../utils/trpc";
 
 interface Props {
-  consultancy: Consultancy & {
+  consultancy: {
+    id: bigint;
+    date: string;
+    doctorId: string;
+    patientId: string;
+    complete: boolean;
+} & {
     doctor: Doctor;
     patient: Patient;
   };

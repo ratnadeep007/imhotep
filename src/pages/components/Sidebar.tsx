@@ -1,14 +1,15 @@
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { Role } from "@prisma/client";
-import { UserIcon } from "@heroicons/react/24/solid";
+import { PowerIcon, UserIcon } from "@heroicons/react/24/solid";
+import { signOut } from "next-auth/react";
 
 const Sidebar: React.FC = () => {
   const { data: sessionData } = useSession();
 
   return (
     <>
-      <aside className="h-full w-full sticky top-0" aria-label="Sidebar">
+      <aside className="sticky top-0 h-full w-full" aria-label="Sidebar">
         <div className="h-full w-full overflow-y-auto bg-gray-50 py-4 px-3 dark:bg-gray-800">
           <ul className="space-y-2">
             <li>
@@ -72,11 +73,26 @@ const Sidebar: React.FC = () => {
                   href="/dashboard/users"
                   className="flex items-center rounded-lg p-2 text-base font-normal text-gray-900 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                 >
-                  <UserIcon width="10%" className="h-6 w-6 flex-shrink-0 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white" />
+                  <UserIcon
+                    width="10%"
+                    className="h-6 w-6 flex-shrink-0 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
+                  />
                   <span className="ml-3 flex-1 whitespace-nowrap">Users</span>
                 </Link>
               </li>
             ) : null}
+            <li>
+              <div
+                onClick={() => signOut()}
+                className="flex cursor-pointer items-center rounded-lg p-2 text-base font-normal text-gray-900 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+              >
+                <PowerIcon
+                  width="10%"
+                  className="h-6 w-6 flex-shrink-0 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
+                />
+                <span className="ml-3 flex-1 whitespace-nowrap">Sign Out</span>
+              </div>
+            </li>
           </ul>
         </div>
       </aside>
