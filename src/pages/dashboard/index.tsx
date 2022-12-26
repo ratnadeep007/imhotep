@@ -1,11 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { trpc } from "../../utils/trpc";
 import { type NextPageWithLayout } from "../_app";
 import DashBoardLayout from "../components/DashboardLayout";
 import BookingForm from "../components/BookingForm";
+import { useRouter } from "next/router";
+import { useSession } from "next-auth/react";
 
 const Index: NextPageWithLayout = () => {
   const [activeConsultancy, setActieConsultancy] = useState<Array<Record<string, unknown>>>();
+  const router = useRouter();
+  const { data: sessionData } = useSession();
+
+  useEffect(() => {
+    if (!sessionData) {
+      router.push('/admin');
+    } 
+  });
 
   const doctors = trpc.doctor.doctors.useQuery();
   const consultancy = trpc.consultancy.getBookings.useQuery({}, {

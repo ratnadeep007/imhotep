@@ -23,16 +23,13 @@ export const authOptions: NextAuthOptions = {
         }
       }
       return session;
-    },
-    redirect() {
-        return '/dashboard'
-    },
+    }
   },
   pages: {
-    signIn: '/auth/signin',
-    signOut: '/auth/signout',
-    error: '/auth/error',
-    verifyRequest: '/auth/verify-request',
+    signIn: "/auth/signin",
+    signOut: "/auth/signout",
+    error: "/auth/error",
+    verifyRequest: "/auth/verify-request"
   },
   // Configure one or more authentication providers
   adapter: PrismaAdapter(prisma),
@@ -40,9 +37,9 @@ export const authOptions: NextAuthOptions = {
     Auth0Provider({
       clientId: env.AUTH0_CLIENT_ID,
       clientSecret: env.AUTH0_CLIENT_SECRET,
-      issuer: env.AUTH0_ISSUER,
+      issuer: env.AUTH0_ISSUER
     })
-  ],
+  ]
 };
 
 export default NextAuth(authOptions);

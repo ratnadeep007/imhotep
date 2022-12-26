@@ -1,8 +1,9 @@
-import { z } from "zod";
+import { string, z } from "zod";
 import { Role } from "@prisma/client";
 
 import { router, publicProcedure, protectedProcedure } from "../trpc";
 import { TRPCError } from "@trpc/server";
+import { Consultancy } from "@prisma/client";
 
 // enum Role {
 //   ADMIN = "ADMIN",
@@ -10,8 +11,24 @@ import { TRPCError } from "@trpc/server";
 //   USER = "USER"
 // }
 
+const consultancySchema = z.object({
+  id: z.bigint(),
+  date: z.date(),
+  doctorId: z.string(),
+  patientId: z.string(),
+  complete: z.boolean()
+});
+
+const createBookingReturnTypeSchema = z.union([
+  consultancySchema,
+  z.object({
+    error: z.string()
+  })
+]);
+
 export const consultancyRouter = router({
   createBooking: publicProcedure
+    .meta({ openapi: { method: 'POST', path: '/create-booking' } })
     .input(
       z.object({
         name: z.string(),
@@ -20,6 +37,7 @@ export const consultancyRouter = router({
         phone: z.string()
       })
     )
+    .output(createBookingReturnTypeSchema)
     .mutation(async ({ input, ctx }) => {
       // check is user role is either ADMIN or ADMIN_CLIENT
       const currentUserId = ctx.session?.user?.id;
@@ -158,13 +176,15 @@ export const consultancyRouter = router({
       }).optional()
     }))
     .mutation(async ({ ctx, input}) => {
-      return await ctx.prisma.consultancy.update({
-        where: {
-          id: input.id
-        },
-        data: {
-          complete: true
-        }
-      })
+      if (input.type === "MARK_DONE") {
+        return await ctx.prisma.consultancy.update({
+          where: {
+            id: input.id
+          },
+          data: {
+            complete: true
+          }
+        });
+      }
     }),
 });
