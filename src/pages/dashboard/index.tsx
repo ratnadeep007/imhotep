@@ -55,8 +55,7 @@ const Index: NextPageWithLayout = () => {
                     Consultancies Today
                   </div>
                   {consultancy.isLoading ? (
-                    <div className="w-full text-center text-white">
-                      Loading...
+                    <div className="sliding-tiles">
                     </div>
                   ) : (
                     <div className="w-full text-center text-2xl font-bold text-white">
