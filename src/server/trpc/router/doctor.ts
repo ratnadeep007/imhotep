@@ -1,13 +1,13 @@
 import { z } from "zod";
 
-import { router, publicProcedure } from "../trpc";
+import { router, publicProcedure, adminProcedure } from "../trpc";
 
 export const doctorRouter = router({
     doctors: publicProcedure
         .query(async ({ ctx }) => {
             return await ctx.prisma.doctor.findMany();
         }),
-    addDoctor: publicProcedure
+    addDoctor: adminProcedure
         .input(z.object({
             name: z.string()
         }))

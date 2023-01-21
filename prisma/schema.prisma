@@ -84,11 +84,12 @@ model Patient {
 
 // To manage schedule of doctor
 model Schedule {
-  id       BigInt @id @default(autoincrement())
-  doctor   Doctor @relation(fields: [doctorId], references: [id])
-  doctorId String
-  days     String
-  timing   String
+  id          BigInt   @id @default(autoincrement())
+  doctor      Doctor   @relation(fields: [doctorId], references: [id])
+  doctorId    String
+  day_of_week String
+  start_time  DateTime
+  end_time    DateTime
 }
 
 // To Manage Consultancy

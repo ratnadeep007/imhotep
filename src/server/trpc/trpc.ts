@@ -8,7 +8,7 @@ const t = initTRPC.context<Context>().create({
   transformer: superjson,
   errorFormatter({ shape }) {
     return shape;
-  },
+  }
 });
 
 export const router = t.router;
@@ -29,8 +29,8 @@ const isAuthed = t.middleware(({ ctx, next }) => {
   return next({
     ctx: {
       // infers the `session` as non-nullable
-      session: { ...ctx.session, user: ctx.session.user },
-    },
+      session: { ...ctx.session, user: ctx.session.user }
+    }
   });
 });
 
@@ -44,7 +44,7 @@ export const protectedProcedure = t.procedure.use(isAuthed);
  */
 export const isAdmin = t.middleware(({ ctx, next }) => {
   if (!ctx.session || !ctx.session.user) {
-    throw new TRPCError({ code: "UNAUTHORIZED" })
+    throw new TRPCError({ code: "UNAUTHORIZED" });
   }
   console.log("session", ctx.session);
 
@@ -53,12 +53,35 @@ export const isAdmin = t.middleware(({ ctx, next }) => {
   }
   return next({
     ctx: {
-      session: { ...ctx.session, user: ctx.session.user },
+      session: { ...ctx.session, user: ctx.session.user }
     }
-  })
+  });
 });
 
 /**
  * Admin only procedures
  */
 export const adminProcedure = t.procedure.use(isAdmin);
+
+
+/*
+* Check user is client admin
+*/
+export const isAdminClient = t.middleware(({ ctx, next }) => {
+  if (!ctx.session || !ctx.session.user) {
+    throw new TRPCError({ code: "UNAUTHORIZED" });
+  }
+  if (ctx.session.user.role !== Role.ADMIN_CLIENT) {
+    throw new TRPCError({ code: "FORBIDDEN" });
+  }
+  return next({
+    ctx: {
+      session: { ...ctx.session, user: ctx.session.user }
+    }
+  });
+});
+
+/**
+ * Admin Client only procedures
+ */
+export const adminClientProcedure = t.procedure.use(isAdminClient);

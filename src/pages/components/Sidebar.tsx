@@ -11,6 +11,7 @@ const Sidebar: React.FC = () => {
     <>
       <aside className="sticky top-0 h-full w-full" aria-label="Sidebar">
         <div className="h-full w-full overflow-y-auto bg-gray-50 py-4 px-3 dark:bg-gray-800">
+          <div className="text-white text-4xl font-bold px-3 pt-3 mb-6">Imhotep.</div>
           <ul className="space-y-2">
             <li>
               <Link
@@ -50,8 +51,8 @@ const Sidebar: React.FC = () => {
               </Link>
             </li>
             <li>
-              <a
-                href="#"
+              <Link
+                href="/dashboard/schedules"
                 className="flex items-center rounded-lg p-2 text-base font-normal text-gray-900 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
               >
                 <svg
@@ -65,7 +66,7 @@ const Sidebar: React.FC = () => {
                   <path d="M3 5a2 2 0 012-2h1a1 1 0 010 2H5v7h2l1 2h4l1-2h2V5h-1a1 1 0 110-2h1a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2V5z"></path>
                 </svg>
                 <span className="ml-3 flex-1 whitespace-nowrap">Schedules</span>
-              </a>
+              </Link>
             </li>
             {sessionData?.user?.role === Role.ADMIN ? (
               <li>
